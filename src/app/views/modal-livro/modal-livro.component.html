@@ -1,0 +1,23 @@
+<section *ngIf="statusModal && livro" [class.container]="esconderScroll()">
+  <div class="card">
+    <img class="imagem" [src]="src" alt="Capa do livro" />
+    <div class="info-card">
+      <p class="titulo">{{ livro.title }}</p>
+      <p class="informacoes">Autoria:</p>
+      <p class="resultado">{{ livro.authors | slice : 0 : 1 }}</p>
+      <p class="informacoes">Data de publicação:</p>
+      <p class="resultado">{{ livro.publishedDate | date : "dd/MM/yy" }}</p>
+      <p class="informacoes">Editora:</p>
+      <p class="resultado">{{ livro.publisher }}</p>
+      <button (click)="lerPrevia(livro)" class="detalhes">Ler prévia</button>
+    </div>
+    <button (click)="fecharModal()" class="botao-fechar">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="sinopse">
+      <h4 class="informacoes">Sinopse</h4>
+      <p class="resultado">{{ livro.description ?? "Sem sinopse" }}</p>
+    </div>
+  </div>
+  <div class="overlay"></div>
+</section>

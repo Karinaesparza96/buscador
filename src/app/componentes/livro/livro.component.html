@@ -1,0 +1,21 @@
+<div class="card" *ngIf="livro">
+  <img [src]="getImage(livro)" alt="Capa do livro" />
+  <div class="info-card">
+    <p class="titulo">{{ livro.title | slice : 0 : 30 }}</p>
+    <p class="informacoes">Autoria:</p>
+    <p class="resultado">{{ livro.authors | slice : 0 : 1 }}</p>
+    <p class="informacoes">Data de publicação:</p>
+    <p class="resultado">{{ livro.publishedDate | date : "dd/MM/yy" }}</p>
+    <p class="informacoes">Editora:</p>
+    <p class="resultado">{{ livro.publisher | slice : 0 : 20 }}</p>
+    <button (click)="onModalChange(true)">Mais detalhes</button>
+  </div>
+</div>
+<div *ngIf="modalAberto">
+  <app-modal-livro
+    [livro]="livro"
+    (mudouModal)="onModalChange($event)"
+    [src]="getImage(livro)"
+  ></app-modal-livro>
+</div>
+<!-- 'assets/imagens/capa-indisponivel.png' -->
