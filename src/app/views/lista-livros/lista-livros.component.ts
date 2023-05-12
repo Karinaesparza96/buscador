@@ -1,53 +1,46 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
-  EMPTY,
-  Observable,
   Subject,
-  catchError,
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
-  of,
   switchMap,
-  throwError,
 } from 'rxjs';
 import { LivrosService } from './livro.service';
 import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
+import { Item, LivrosResultado } from 'src/app/models/interfaces';
 
 @Component({
   selector: 'app-lista-livros',
   templateUrl: './lista-livros.component.html',
   styleUrls: ['./lista-livros.component.css'],
 })
-export class ListaLivrosComponent implements OnInit {
+export class ListaLivrosComponent {
   searchTerms = new Subject<string>();
-  listaLivros$?: Observable<LivroVolumeInfo[]>;
-  livrosEncontrados$?: Observable<number>;
-  msgErro = '';
 
-  @ViewChild('searchBox') searchBox?: ElementRef<HTMLElement>;
+  msgErroSemItens = 'Nao foi encontrado';
+  livrosResultado?: LivrosResultado;
 
-  constructor(private http: LivrosService) {}
+  constructor(private livroService: LivrosService) {}
 
-  ngOnInit(): void {
-    this.searchBox?.nativeElement.focus();
-    this.listaLivros$ = this.searchTerms.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.http.listarLivros(term)),
-      //tap((res) => console.log('Pos switchMap', res)),
-      map((res) => this.http.livrosRetornoApiParaLivro(res)),
-      catchError(() => {
-        this.msgErro = 'Ops ocorreu um erro, tente recarregar a pagina.';
-        return EMPTY;
-      })
-      //tap((res) => console.log('Pos map', res))
-    );
-    this.livrosEncontrados$ = this.http.getTotalLivros();
+  livrosRetornoApiParaLivro(items: Item[]): LivroVolumeInfo[] {
+    return items.map((item) => new LivroVolumeInfo(item));
   }
 
+  listaLivros$ = this.searchTerms.pipe(
+    debounceTime(300),
+    filter((valorDigitado) => valorDigitado.length >= 3),
+    distinctUntilChanged(),
+    switchMap((term: string) => this.livroService.listarLivros(term)),
+    map((res) => (this.livrosResultado = res)),
+    map((res) => res.items ?? []),
+    map((items) => this.livrosRetornoApiParaLivro(items))
+  );
+
   search(term: string): void {
+    console.log(term);
     this.searchTerms.next(term);
   }
 }

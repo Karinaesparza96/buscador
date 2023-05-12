@@ -1,23 +1,33 @@
 <section class="container">
   <header>Qual livro deseja procurar?</header>
   <div class="busca">
-    <input type="search" #searchBox (input)="search(searchBox.value)" />
+    <input
+      type="search"
+      #searchBox
+      (input)="search(searchBox.value)"
+      autofocus
+    />
     <button>
       <img src="assets/imagens/icone-busca.png" alt="Lupa de cor roxa" />
     </button>
   </div>
   <p>Busque por assunto, autoria, nome...</p>
-  <div class="resultados mensagem-erro" *ngIf="msgErro">
-    {{ msgErro }}
+  <div
+    class="resultados mensagem-erro"
+    *ngIf="this.livrosResultado?.totalItems == 0"
+  >
+    {{ msgErroSemItens }}
   </div>
-  <div *ngIf="livrosEncontrados$ | async as totalLivros">
-    <p class="resultados">Foram encontrados: {{ totalLivros }} livros</p>
+  <div *ngIf="livrosResultado">
+    <p class="resultados">
+      {{ livrosResultado.totalItems }} resultados encontrados
+    </p>
   </div>
   <div
     class="container-card"
-    *ngIf="listaLivros$ | async as listaLivros; else telaInicial"
+    *ngIf="listaLivros$ | async as livros; else telaInicial"
   >
-    <div *ngFor="let livro of listaLivros">
+    <div *ngFor="let livro of livros">
       <app-livro [livro]="livro"></app-livro>
     </div>
   </div>
