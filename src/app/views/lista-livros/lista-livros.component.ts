@@ -7,6 +7,7 @@ import {
   filter,
   map,
   switchMap,
+  tap,
 } from 'rxjs';
 import { LivrosService } from './livro.service';
 import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
@@ -23,7 +24,9 @@ export class ListaLivrosComponent {
   msgErroSemItens = 'Nao foi encontrado';
   livrosResultado?: LivrosResultado;
 
-  constructor(private livroService: LivrosService) {}
+  constructor(private livroService: LivrosService) {
+    //livroService.listarLivros('java').subscribe((x) => console.log(x));
+  }
 
   livrosRetornoApiParaLivro(items: Item[]): LivroVolumeInfo[] {
     return items.map((item) => new LivroVolumeInfo(item));
@@ -31,16 +34,17 @@ export class ListaLivrosComponent {
 
   listaLivros$ = this.searchTerms.pipe(
     debounceTime(300),
-    filter((valorDigitado) => valorDigitado.length >= 3),
+    //filter((valorDigitado) => valorDigitado.length >= 3),
     distinctUntilChanged(),
-    switchMap((term: string) => this.livroService.listarLivros(term)),
+    switchMap((term) => {
+      return this.livroService.listarLivros(term);
+    }),
     map((res) => (this.livrosResultado = res)),
-    map((res) => res.items ?? []),
+    map((res) => res?.items ?? []),
     map((items) => this.livrosRetornoApiParaLivro(items))
   );
 
   search(term: string): void {
-    console.log(term);
     this.searchTerms.next(term);
   }
 }
