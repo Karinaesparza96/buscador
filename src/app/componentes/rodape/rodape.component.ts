@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './rodape.component.html',
   styleUrls: ['./rodape.component.css']
 })
-export class RodapeComponent {
-
-  constructor() { }
-
-}
+export class RodapeComponent { }

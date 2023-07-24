@@ -7,16 +7,16 @@ import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
   styleUrls: ['./livro.component.css'],
 })
 export class LivroComponent {
+  modalShow: boolean = false;
   @Input() livro?: LivroVolumeInfo;
 
-  getImage(livro: any) {
+  getImage() {
     return (
-      livro?.thumbnail?.thumbnail ?? 'assets/imagens/capa-indisponivel.png'
+      this.livro?.thumbnail?.thumbnail ?? 'assets/imagens/capa-indisponivel.png'
     );
   }
-  modalAberto?: boolean;
 
   onModalChange(evento: boolean) {
-    this.modalAberto = evento;
+    this.modalShow = evento;
   }
 }

@@ -1,17 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  Subject,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs';
-import { LivrosService } from './livro.service';
+import { map } from 'rxjs';
+
+import { LivrosService } from '../../services/livro.service';
 import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
-import { Item, LivrosResultado } from 'src/app/models/interfaces';
+import { LivrosResultado } from 'src/app/models/interfaces';
+import { InputComponent } from 'src/app/componentes/input/input.component';
 
 @Component({
   selector: 'app-lista-livros',
@@ -19,32 +13,37 @@ import { Item, LivrosResultado } from 'src/app/models/interfaces';
   styleUrls: ['./lista-livros.component.css'],
 })
 export class ListaLivrosComponent {
-  searchTerms = new Subject<string>();
+  @ViewChild('searchBox') searchBox?: InputComponent
 
-  msgErroSemItens = 'Nao foi encontrado';
-  livrosResultado?: LivrosResultado;
 
-  constructor(private livroService: LivrosService) {
-    //livroService.listarLivros('java').subscribe((x) => console.log(x));
+  totalBooks?: number | null;
+  startIndex = 0
+  booksList: LivroVolumeInfo[] = [];
+
+  constructor(private livroService: LivrosService) { }
+
+  loadMoreBooks(): void {
+    this.startIndex += 10
+    const termoBusca = this.searchBox?.getSearchValue()
+    if (termoBusca) {
+      this.livroService
+        .loadBooks(termoBusca, this.startIndex)
+        .pipe(map(res => this.processResponse(res))).subscribe();
+    }
   }
 
-  livrosRetornoApiParaLivro(items: Item[]): LivroVolumeInfo[] {
-    return items.map((item) => new LivroVolumeInfo(item));
+  searchTermChanged() {
+    this.totalBooks = this.startIndex = 0
+    this.booksList = []
   }
 
-  listaLivros$ = this.searchTerms.pipe(
-    debounceTime(300),
-    //filter((valorDigitado) => valorDigitado.length >= 3),
-    distinctUntilChanged(),
-    switchMap((term) => {
-      return this.livroService.listarLivros(term);
-    }),
-    map((res) => (this.livrosResultado = res)),
-    map((res) => res?.items ?? []),
-    map((items) => this.livrosRetornoApiParaLivro(items))
-  );
-
-  search(term: string): void {
-    this.searchTerms.next(term);
+  processResponse(data: LivrosResultado) {
+    if (data) {
+      this.totalBooks = data.totalItems;
+      this.booksList.push(...this.livroService.convertApiBooksToLivro(
+        data.items
+      ))
+    }
   }
+
 }

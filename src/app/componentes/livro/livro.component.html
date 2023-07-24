@@ -1,5 +1,5 @@
 <div class="card" *ngIf="livro">
-  <img [src]="getImage(livro)" alt="Capa do livro" />
+  <img [src]="getImage()" alt="Capa do livro" />
   <div class="info-card">
     <p class="titulo">{{ livro.title | slice : 0 : 30 }}</p>
     <p class="informacoes">Autoria:</p>
@@ -11,11 +11,10 @@
     <button (click)="onModalChange(true)">Mais detalhes</button>
   </div>
 </div>
-<div *ngIf="modalAberto">
+<div *ngIf="modalShow">
   <app-modal-livro
     [livro]="livro"
-    (mudouModal)="onModalChange($event)"
-    [src]="getImage(livro)"
+    (changeModal)="onModalChange($event)"
+    [src]="getImage()"
   ></app-modal-livro>
 </div>
-<!-- 'assets/imagens/capa-indisponivel.png' -->

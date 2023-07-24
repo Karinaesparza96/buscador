@@ -5,6 +5,7 @@
   padding: 0;
 }
 
+
 h1, h2, h3 {
   font-family: 'Poppins', sans-serif;
 }
@@ -33,4 +34,27 @@ button:hover {
   transition: all 0.5s ease-in;
   border: 2px solid #050C42;
 }
+.mat-simple-snackbar {
 
+  font-family: 'Poppins';
+  font-size: 1em;
+  color: white;
+}
+
+.mat-simple-snackbar .mat-button{
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: red;
+}
+
+.snackbar-success {
+  background-color: green;
+}
+
+.snackbar-info {
+  background-color: #6C63FF;
+}

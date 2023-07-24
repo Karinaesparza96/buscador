@@ -1,0 +1,12 @@
+<div class="busca">
+  <input
+    type="search"
+    #searchBox
+    (keyup)="search($event)"
+    (keyup.enter)="search($event)"
+    autofocus
+  />
+  <button>
+    <img src="assets/imagens/icone-busca.png" alt="Lupa de cor roxa" />
+  </button>
+</div>

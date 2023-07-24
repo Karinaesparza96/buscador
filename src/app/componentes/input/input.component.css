@@ -1,0 +1,46 @@
+input {
+  width: 588px;
+  height: 56px;
+  border: 2px solid #6C63FF;
+  border-radius: 10px;
+  outline: 0;
+  box-sizing: border-box;
+  top: 220px;
+  background: url(../../../assets/imagens/logo-google.png);
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 4.08%;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 20px;
+}
+
+.busca {
+  display: flex;
+}
+
+input[type='search']:focus {
+  background-image: none;
+  outline: none;
+  text-decoration: none;
+  padding-left: 10px;
+}
+
+input[type="search"]::-webkit-search-decoration,
+::-webkit-search-cancel-button,
+::-webkit-search-results-button,
+::-webkit-search-results-decoration {
+  display: none;
+}
+
+button {
+  border: none;
+  text-decoration: none;
+  background: none;
+  position: relative;
+  top: 0.3rem;
+  right: 50px;
+}

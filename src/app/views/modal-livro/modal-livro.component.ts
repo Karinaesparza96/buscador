@@ -1,7 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  Renderer2,
+} from '@angular/core';
 
-const body = document.querySelector('body');
+import { LivroVolumeInfo } from 'src/app/models/LivroVolumeInfo';
 
 @Component({
   selector: 'app-modal-livro',
@@ -9,28 +15,29 @@ const body = document.querySelector('body');
   styleUrls: ['./modal-livro.component.css'],
 })
 export class ModalLivroComponent {
+  body = this.el.nativeElement.ownerDocument.body;
   @Input() src?: string;
   @Input() livro?: LivroVolumeInfo;
-  @Output() mudouModal = new EventEmitter();
+  @Output() changeModal = new EventEmitter();
   statusModal: boolean = true;
+
+  constructor(private el: ElementRef, private renderer: Renderer2) { }
 
   fecharModal() {
     this.statusModal = false;
-    this.mudouModal.emit(this.statusModal);
-    if (body) {
-      body.style.overflow = 'scroll';
-    }
+    this.changeModal.emit(this.statusModal);
+    this.esconderScroll();
   }
 
   esconderScroll() {
     if (this.statusModal) {
-      if (body) {
-        body.style.overflow = 'hidden';
-      }
+      this.renderer.setStyle(this.body, 'overflow', 'hidden');
+    } else {
+      this.renderer.setStyle(this.body, 'overflow', 'scroll');
     }
   }
 
-  lerPrevia(livro: LivroVolumeInfo) {
-    window.open(livro.previewLink, '_blank');
+  lerPrevia() {
+    window.open(this.livro?.previewLink, '_blank');
   }
 }

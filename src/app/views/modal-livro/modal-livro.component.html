@@ -9,7 +9,13 @@
       <p class="resultado">{{ livro.publishedDate | date : "dd/MM/yy" }}</p>
       <p class="informacoes">Editora:</p>
       <p class="resultado">{{ livro.publisher }}</p>
-      <button (click)="lerPrevia(livro)" class="detalhes">Ler prévia</button>
+      <button
+        (click)="lerPrevia()"
+        class="detalhes"
+        title="Abrir em nova janela"
+      >
+        Ler prévia
+      </button>
     </div>
     <button (click)="fecharModal()" class="botao-fechar">
       <span class="material-symbols-outlined">close</span>
