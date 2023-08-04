@@ -19,3 +19,4 @@ export class LivroVolumeInfo {
     this.thumbnail = item.volumeInfo?.imageLinks;
   }
 }
+

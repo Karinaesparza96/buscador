@@ -1,27 +1,41 @@
-# Buscante
+# Livros Search App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.3.
+Este é um aplicativo Angular que permite buscar por livros utilizando a API do Google Books.
 
-## Development server
+## Funcionalidades
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Busca por livros utilizando palavras-chave.
+- Carregamento de mais resultados à medida que o usuário rola a página.
+- Exibição de detalhes dos livros encontrados.
 
-## Code scaffolding
+## Tecnologias Utilizadas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular
+- TypeScript
+- RxJS
+- HttpClientModule
 
-## Build
+## Como Rodar o Projeto
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Certifique-se de ter o Node.js instalado na sua máquina.
+2. Clone este repositório para o seu ambiente local.
+3. Navegue até o diretório raiz do projeto usando o terminal.
+4. Execute o comando `npm install` para instalar as dependências.
+5. Execute o comando `ng serve` para iniciar o servidor de desenvolvimento.
+6. Abra seu navegador e navegue até `http://localhost:4200/` para visualizar o aplicativo.
 
-## Running unit tests
+## Como Usar
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Na página inicial, você encontrará um campo de busca.
+2. Digite palavras-chave relacionadas ao livro que deseja buscar.
+3. Os resultados da busca serão exibidos à medida que você digita.
+4. Role a página para baixo para carregar mais resultados.
+5. Clique em um livro para ver mais detalhes sobre ele.
 
-## Running end-to-end tests
+## Autor
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+[Karina Esparza]
 
-## Further help
+## Licença
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Este projeto está licenciado sob a MIT License - consulte o arquivo [LICENSE](LICENSE) para detalhes.
